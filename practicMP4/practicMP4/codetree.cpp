@@ -3,26 +3,26 @@
 #include <time.h>
 #include <Windows.h>
 using namespace std;
-int i;
+int l;
 class TREE {
 private:
 	struct Node{
 	int data;
-	Node *children[5];
+	Node **children = new Node* [l];
 	};
 public:
-	int maxlevel;	
+	int maxlevel, i;	
 	Node * root = NULL;
 	Node * rec_addNode(int * data, Node * curNode) {
 	if (!curNode) {
 		curNode = new Node;
 		curNode->data = *data;
-		for (i = 0; i <= 4; i++) {
+		for (i = 0; i <= l-1; i++) {
 			curNode->children[i] = NULL;
 		}
 		return curNode;
 	}
-	int accidentn = rand() % 5;
+	int accidentn = rand() % l;
 	curNode->children[accidentn] = rec_addNode(data, curNode->children[accidentn]);
 	return curNode;
 	}
@@ -31,7 +31,7 @@ public:
 		cout << "”ровень = " << level << " „исло = " << root->data << "\n";
 		if (level > maxlevel) { maxlevel = level; }
 		int k;
-		for (k = 0; k <= 4; k++){
+		for (k = 0; k <= l-1; k++){
 			printing(root->children[k], level + 1);
 		}
 	}
@@ -40,8 +40,10 @@ public:
 int main() {
 	setlocale(LC_ALL, "Russian");
 	srand((unsigned int)time(0));
-	TREE a;
-	for (int j = 1; j <= 12; j++) {
+	TREE a; int n;
+	cout << "¬ведите максимально возможное количество потомков "; cin >> l;
+	cout << "¬ведите количество узлов "; cin >> n;
+	for (int j = 1; j <= n; j++) {
 		int put; put = rand() % 50;
 		a.root = a.rec_addNode(&put, a.root);
 	}
